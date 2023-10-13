@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "sharepoint-workplace-client-side-solution",
+    "id": "72c93897-0bcb-47f8-ab90-f07d1e51f664",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.18.0"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "sharepoint-workplace description"
+      },
+      "longDescription": {
+        "default": "sharepoint-workplace description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "sharepoint-workplace Feature",
+        "description": "The feature that activates elements of the sharepoint-workplace solution.",
+        "id": "2e9c2420-144d-43a5-8188-b396ce193ea2",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/sharepoint-workplace.sppkg"
+  }
+}
