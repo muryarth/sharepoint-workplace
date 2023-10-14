@@ -1,8 +1,8 @@
 import * as React from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { SPFI } from "@pnp/sp";
 import type { IHelloWorldProps } from "./IHelloWorldProps";
-// import { IFAQ } from "../../../interfaces";
+import { IFAQ } from "../../../interfaces";
 import { getSP } from "../../../pnpjs-config";
 
 const HelloWorld = (props: IHelloWorldProps) => {
@@ -10,24 +10,40 @@ const HelloWorld = (props: IHelloWorldProps) => {
   const LIST_NAME = "FAQ";
   let _sp: SPFI | null = getSP(props.context);
 
-  // const [faqItems, setFaqItems] = useState<IFAQ[]>([]);
+  const [faqItems, setFaqItems] = useState<IFAQ[]>([]);
 
   const getFAQItems = async () => {
     console.log("context", _sp);
 
     if (_sp != null) {
-      const items = _sp.web.lists.getByTitle(LIST_NAME).items();
+      const items = await _sp.web.lists.getByTitle(LIST_NAME).items.select().orderBy('letter', true).orderBy('Title', true)();
 
-      console.log(items);
+      console.log("FAQ Items", items);
+
+      setFaqItems(
+        items.map(({ Id, Title, body, letter }) => {
+          return {
+            Id: Id,
+            Title: Title,
+            body: body,
+            letter: letter,
+          };
+        })
+      );
     }
   };
 
-  // run once
+  // Runs once, whenever the component is instanced
   useEffect(() => {
     getFAQItems();
-  });
+  }, []);
 
-  return <h1>Hello World!</h1>;
+  return (
+    <>
+      <h1>Hello World!</h1>
+      <pre>{JSON.stringify(faqItems, null, 2)}</pre>
+    </>
+  );
 };
 
 export default HelloWorld;
