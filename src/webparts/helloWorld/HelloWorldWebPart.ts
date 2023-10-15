@@ -11,9 +11,14 @@ import { IReadonlyTheme } from "@microsoft/sp-component-base";
 import * as strings from "HelloWorldWebPartStrings";
 import HelloWorld from "./components/HelloWorld";
 import { IHelloWorldProps } from "./components/IHelloWorldProps";
+import {
+  PropertyFieldListPicker,
+  PropertyFieldListPickerOrderBy,
+} from "@pnp/spfx-property-controls/lib/PropertyFieldListPicker";
 
 export interface IHelloWorldWebPartProps {
   description: string;
+  list: string;
 }
 
 export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorldWebPartProps> {
@@ -30,6 +35,7 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
         hasTeamsContext: !!this.context.sdks.microsoftTeams,
         userDisplayName: this.context.pageContext.user.displayName,
         context: this.context,
+        listGuid: this.properties.list,
       }
     );
 
@@ -123,6 +129,20 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
               groupFields: [
                 PropertyPaneTextField("description", {
                   label: strings.DescriptionFieldLabel,
+                }),
+
+                PropertyFieldListPicker("list", {
+                  label: "Select a list",
+                  selectedList: this.properties.list,
+                  includeHidden: false,
+                  orderBy: PropertyFieldListPickerOrderBy.Title,
+                  disabled: false,
+                  onPropertyChange: this.onPropertyPaneFieldChanged.bind(this),
+                  properties: this.properties,
+                  context: this.context as any,
+                  onGetErrorMessage: null as any,
+                  deferredValidationTime: 0,
+                  key: "listPickerFieldId",
                 }),
               ],
             },

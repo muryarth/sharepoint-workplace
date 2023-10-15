@@ -7,4 +7,5 @@ export interface IHelloWorldProps {
   hasTeamsContext: boolean;
   userDisplayName: string;
   context: WebPartContext;
+  listGuid: string;
 }

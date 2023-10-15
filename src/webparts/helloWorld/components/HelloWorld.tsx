@@ -4,10 +4,11 @@ import { SPFI } from "@pnp/sp";
 import type { IHelloWorldProps } from "./IHelloWorldProps";
 import { IFAQ } from "../../../interfaces";
 import { getSP } from "../../../pnpjs-config";
+import { Accordion } from "@pnp/spfx-controls-react";
 
 const HelloWorld = (props: IHelloWorldProps) => {
   // const LOG_SOURCE = "FAQ Webpart";
-  const LIST_NAME = "FAQ";
+  // const LIST_NAME = "FAQ";
   let _sp: SPFI | null = getSP(props.context);
 
   const [faqItems, setFaqItems] = useState<IFAQ[]>([]);
@@ -16,7 +17,13 @@ const HelloWorld = (props: IHelloWorldProps) => {
     console.log("context", _sp);
 
     if (_sp != null) {
-      const items = await _sp.web.lists.getByTitle(LIST_NAME).items.select().orderBy('letter', true).orderBy('Title', true)();
+      console.log(props.listGuid);
+
+      const items = await _sp.web.lists
+        .getById(props.listGuid)
+        .items.select()
+        .orderBy("letter", true)
+        .orderBy("Title", true)();
 
       console.log("FAQ Items", items);
 
@@ -35,13 +42,24 @@ const HelloWorld = (props: IHelloWorldProps) => {
 
   // Runs once, whenever the component is instanced
   useEffect(() => {
-    getFAQItems();
-  }, []);
+    if (props.listGuid && props.listGuid != "") {
+      getFAQItems();
+    }
+  }, [props]);
 
   return (
     <>
-      <h1>Hello World!</h1>
-      <pre>{JSON.stringify(faqItems, null, 2)}</pre>
+      {props.listGuid ? (
+        faqItems.map((object: IFAQ, index: number) => {
+          return (
+            <Accordion key={index} title={object.Title} defaultCollapsed={true}>
+              {object.body}
+            </Accordion>
+          );
+        })
+      ) : (
+        <h1>Porfavor, selecione uma lista</h1>
+      )}
     </>
   );
 };
