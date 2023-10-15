@@ -17,8 +17,10 @@ import {
 } from "@pnp/spfx-property-controls/lib/PropertyFieldListPicker";
 
 export interface IHelloWorldWebPartProps {
+  // Propriedades que ficarão editáveis na webpart
   description: string;
   list: string;
+  title: string,
 }
 
 export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorldWebPartProps> {
@@ -29,6 +31,7 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
     const element: React.ReactElement<IHelloWorldProps> = React.createElement(
       HelloWorld,
       {
+        // Propriedades sendo passadas como props para componente da webpart
         description: this.properties.description,
         isDarkTheme: this._isDarkTheme,
         environmentMessage: this._environmentMessage,
@@ -36,6 +39,11 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
         userDisplayName: this.context.pageContext.user.displayName,
         context: this.context,
         listGuid: this.properties.list,
+        title: this.properties.title,
+        displayMode: this.displayMode,
+        updateProperty: (value: string) => {
+          this.properties.title = value;
+        },
       }
     );
 

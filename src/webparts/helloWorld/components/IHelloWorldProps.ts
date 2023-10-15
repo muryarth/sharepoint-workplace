@@ -1,4 +1,5 @@
 import { WebPartContext } from "@microsoft/sp-webpart-base";
+import { DisplayMode } from "@microsoft/sp-core-library";
 
 export interface IHelloWorldProps {
   description: string;
@@ -8,4 +9,7 @@ export interface IHelloWorldProps {
   userDisplayName: string;
   context: WebPartContext;
   listGuid: string;
+  title: string;
+  displayMode: DisplayMode;
+  updateProperty: (value: string) => void;
 }

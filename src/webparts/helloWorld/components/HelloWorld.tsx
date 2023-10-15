@@ -5,6 +5,8 @@ import type { IHelloWorldProps } from "./IHelloWorldProps";
 import { IFAQ } from "../../../interfaces";
 import { getSP } from "../../../pnpjs-config";
 import { Accordion } from "@pnp/spfx-controls-react";
+import { Placeholder } from "@pnp/spfx-controls-react/lib/Placeholder";
+import { WebPartTitle } from "@pnp/spfx-controls-react/lib/WebPartTitle";
 
 const HelloWorld = (props: IHelloWorldProps) => {
   // const LOG_SOURCE = "FAQ Webpart";
@@ -49,6 +51,11 @@ const HelloWorld = (props: IHelloWorldProps) => {
 
   return (
     <>
+      <WebPartTitle
+        displayMode={props.displayMode}
+        title={props.title}
+        updateProperty={props.updateProperty}
+      />
       {props.listGuid ? (
         faqItems.map((object: IFAQ, index: number) => {
           return (
@@ -58,7 +65,14 @@ const HelloWorld = (props: IHelloWorldProps) => {
           );
         })
       ) : (
-        <h1>Porfavor, selecione uma lista</h1>
+        <Placeholder
+          iconName="Edit"
+          iconText="Configure your web part"
+          description="Please configure the web part."
+          buttonLabel="Configure"
+          onConfigure={() => props.context.propertyPane.open()}
+        />
+        // <h1>Porfavor, selecione uma lista</h1>
       )}
     </>
   );
